@@ -243,7 +243,7 @@ for p in range(len(curr_date)):
             #cur.execute(sql)
             #conn.commit()
         df_frus_Vs_sdc_cosine_sorted = pd.DataFrame.from_dict(frus_Vs_sdc_cosine,orient='columns')
-        output_file_name = 'results/cosine_similarity_top5'+ '_'+ str(curr_date[p]) + '_with_stemming.csv'
+        output_file_name = 'files/results/cosine_similarity_top5'+ '_'+ str(curr_date[p]) + '_with_stemming.csv'
         print output_file_name
         df_frus_Vs_sdc_cosine_sorted.to_csv(output_file_name)
     print "execution complete for %d"%curr_date[p]
