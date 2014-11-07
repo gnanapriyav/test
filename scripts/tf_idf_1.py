@@ -13,7 +13,7 @@ import nltk
 from nltk.stem.porter import *
 import pymysql
 
-
+print os.getcwd()
 # In[3]:
 
 #This function takes "document body" as input and performs the following.
