@@ -230,7 +230,7 @@ for p in range(len(curr_date)):
         final_result = pd.DataFrame.sort(documents_with_unique_words,columns='cosine_similarity',ascending=False)
         final_result.loc[:,'frus_body'] = frus_body
         final_result.loc[:,'frus_docid'] = frus_docid
-        file_name = 'results/' + str(frus_docid) + '_'+ str(curr_date[p]) + '_with_stemming.csv'
+        file_name = 'files/results/' + str(frus_docid) + '_'+ str(curr_date[p]) + '_with_stemming.csv'
         final_result.to_csv(file_name)
 
         for k in range(5):
