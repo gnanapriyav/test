@@ -174,7 +174,7 @@ def build_cosine_similarity_result():
 
 
 # In[16]:
-curr_date = [197407]
+curr_date = [197506,197507,197508,197509,197510]
 for p in range(len(curr_date)):
     input_file_name = 'files/input/sdc/output_uniq_words_' + str(curr_date[p]) + '.csv'
     documents_with_unique_words = pd.read_csv(input_file_name)
