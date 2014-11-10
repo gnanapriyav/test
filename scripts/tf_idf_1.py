@@ -174,7 +174,7 @@ def build_cosine_similarity_result():
 
 
 # In[16]:
-curr_date = [197301]
+curr_date = [197310]
 for p in range(len(curr_date)):
     input_file_name = 'files/input/sdc/output_uniq_words_' + str(curr_date[p]) + '.csv'
     documents_with_unique_words = pd.read_csv(input_file_name)
@@ -206,7 +206,7 @@ for p in range(len(curr_date)):
     tot_no_of_documents = len(documents)
 
     #For each frus telegram issued in 197301, calcuate the cosine similarity with state dept cables issued in 197301
-    frus_file_name = 'files/input/frus/frus_temp_' + str(curr_date[p]) + '.txt'
+    frus_file_name = 'files/input/frus/frus_temp_' + str(curr_date[p]) + '_v1.txt'
     frus_temp = pd.read_table(frus_file_name)
     #frus_temp = pd.read_table('frus_temp/frus_temp_197301.txt')
     frus_Vs_sdc_cosine = {'cosine_sim_value':[],'frus_docid':[],'frus_body':[],'sdc_docid':[],'sdc_cleanBody':[]}
@@ -243,7 +243,7 @@ for p in range(len(curr_date)):
             #cur.execute(sql)
             #conn.commit()
     df_frus_Vs_sdc_cosine_sorted = pd.DataFrame.from_dict(frus_Vs_sdc_cosine,orient='columns')
-    output_file_name = 'files/results/cosine_similarity_top5'+ '_'+ str(curr_date[p]) + '_with_stemming.csv'
+    output_file_name = 'files/results/cosine_similarity_top5'+ '_'+ str(curr_date[p]) + 'v1_with_stemming.csv'
     print output_file_name
     df_frus_Vs_sdc_cosine_sorted.to_csv(output_file_name)
     print "execution complete for %d"%curr_date[p]

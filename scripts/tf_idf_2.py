@@ -13,7 +13,7 @@ import nltk
 from nltk.stem.porter import *
 import pymysql
 
-
+print os.getcwd()
 # In[3]:
 
 #This function takes "document body" as input and performs the following.
@@ -174,7 +174,7 @@ def build_cosine_similarity_result():
 
 
 # In[16]:
-curr_date = [197407]
+curr_date = [197311]
 for p in range(len(curr_date)):
     input_file_name = 'files/input/sdc/output_uniq_words_' + str(curr_date[p]) + '.csv'
     documents_with_unique_words = pd.read_csv(input_file_name)
@@ -206,11 +206,11 @@ for p in range(len(curr_date)):
     tot_no_of_documents = len(documents)
 
     #For each frus telegram issued in 197301, calcuate the cosine similarity with state dept cables issued in 197301
-    frus_file_name = 'files/input/frus/frus_temp_' + str(curr_date[p]) + '.txt'
+    frus_file_name = 'files/input/frus/frus_temp_' + str(curr_date[p]) + '_v1.txt'
     frus_temp = pd.read_table(frus_file_name)
     #frus_temp = pd.read_table('frus_temp/frus_temp_197301.txt')
     frus_Vs_sdc_cosine = {'cosine_sim_value':[],'frus_docid':[],'frus_body':[],'sdc_docid':[],'sdc_cleanBody':[]}
-    print "Total number of frus telegrams for year %d = "%curr_date[p]
+    print "Total number of frus telegrams for year %d = %d"%(curr_date[p],len(frus_temp.index))
     for i in range(len(frus_temp.index)):
         print "frus document number = %d"%i
         frus_body = frus_temp.iloc[i]['body']
@@ -242,10 +242,10 @@ for p in range(len(curr_date)):
             #sql = "insert into results_temp (cosine_sim_value,frus_docid,frus_body,sdc_docid,sdc_cleanBody) values (%f,'"'%s'"','"'%s'"',%d,'"'%s'"')"%(final_result.iloc[k]['cosine_similarity'],final_result.iloc[k]['frus_docid'],str(final_result.iloc[k]['frus_body']),final_result.iloc[k]['docid'],str(final_result.iloc[k]['cleanBody']))
             #cur.execute(sql)
             #conn.commit()
-        df_frus_Vs_sdc_cosine_sorted = pd.DataFrame.from_dict(frus_Vs_sdc_cosine,orient='columns')
-        output_file_name = 'files/results/cosine_similarity_top5'+ '_'+ str(curr_date[p]) + '_with_stemming.csv'
-        print output_file_name
-        df_frus_Vs_sdc_cosine_sorted.to_csv(output_file_name)
+    df_frus_Vs_sdc_cosine_sorted = pd.DataFrame.from_dict(frus_Vs_sdc_cosine,orient='columns')
+    output_file_name = 'files/results/cosine_similarity_top5'+ '_'+ str(curr_date[p]) + 'v1_with_stemming.csv'
+    print output_file_name
+    df_frus_Vs_sdc_cosine_sorted.to_csv(output_file_name)
     print "execution complete for %d"%curr_date[p]
 
 
