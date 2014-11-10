@@ -174,7 +174,7 @@ def build_cosine_similarity_result():
 
 
 # In[16]:
-curr_date = [197406]
+curr_date = [197301]
 for p in range(len(curr_date)):
     input_file_name = 'files/input/sdc/output_uniq_words_' + str(curr_date[p]) + '.csv'
     documents_with_unique_words = pd.read_csv(input_file_name)
@@ -210,7 +210,7 @@ for p in range(len(curr_date)):
     frus_temp = pd.read_table(frus_file_name)
     #frus_temp = pd.read_table('frus_temp/frus_temp_197301.txt')
     frus_Vs_sdc_cosine = {'cosine_sim_value':[],'frus_docid':[],'frus_body':[],'sdc_docid':[],'sdc_cleanBody':[]}
-    print "Total number of frus telegrams for year %d = "%curr_date[p]
+    print "Total number of frus telegrams for year %d = %d"%(curr_date[p],len(frus_temp.index))
     for i in range(len(frus_temp.index)):
         print "frus document number = %d"%i
         frus_body = frus_temp.iloc[i]['body']
@@ -242,10 +242,10 @@ for p in range(len(curr_date)):
             #sql = "insert into results_temp (cosine_sim_value,frus_docid,frus_body,sdc_docid,sdc_cleanBody) values (%f,'"'%s'"','"'%s'"',%d,'"'%s'"')"%(final_result.iloc[k]['cosine_similarity'],final_result.iloc[k]['frus_docid'],str(final_result.iloc[k]['frus_body']),final_result.iloc[k]['docid'],str(final_result.iloc[k]['cleanBody']))
             #cur.execute(sql)
             #conn.commit()
-        df_frus_Vs_sdc_cosine_sorted = pd.DataFrame.from_dict(frus_Vs_sdc_cosine,orient='columns')
-        output_file_name = 'files/results/cosine_similarity_top5'+ '_'+ str(curr_date[p]) + '_with_stemming.csv'
-        print output_file_name
-        df_frus_Vs_sdc_cosine_sorted.to_csv(output_file_name)
+    df_frus_Vs_sdc_cosine_sorted = pd.DataFrame.from_dict(frus_Vs_sdc_cosine,orient='columns')
+    output_file_name = 'files/results/cosine_similarity_top5'+ '_'+ str(curr_date[p]) + '_with_stemming.csv'
+    print output_file_name
+    df_frus_Vs_sdc_cosine_sorted.to_csv(output_file_name)
     print "execution complete for %d"%curr_date[p]
 
 
