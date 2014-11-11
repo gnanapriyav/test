@@ -13,8 +13,10 @@ import nltk
 from nltk.stem.porter import *
 import pymysql
 
-print os.getcwd()
+#print os.getcwd()
 # In[3]:
+
+#def connect_to_mysql():
 
 #This function takes "document body" as input and performs the following.
 # 1. convert into lower case
@@ -172,9 +174,34 @@ def build_cosine_similarity_result():
 #    print cosine_similarity_result 
     return cosine_similarity_result   
 
+#function to load results into mysql
+def load_into_mysql(file_name):
+    f = open(file_name,'r')
+    lines=csv.reader(f.read().splitlines())
+    for i,line in enumerate(lines):
+        if i > 0:
+            if i%300==0:print "%d lines processed"%i
+            cosine_index = i
+            sdc_docid = int(line[2])
+            cosine_sim_value = float(line[6])
+            frus_docid = line[8]
+            sql_frus = "select date from declassification_frus.docs where id = "'"%s"'""%frus_docid
+            cur.execute(sql_frus)
+            result = cur.fetchone()
+            frus_date = result[0]
+            sql_sdc = "select DATESQL,DOC_NBR from declassification.statedeptcables where DOCID=%d;"%sdc_docid
+            cur.execute(sql_sdc)
+            result = cur.fetchone()            
+            sdc_date = result[0]
+            sdc_doc_nbr = result[1]
+
+            #insert into results table of etc database
+            sql = "insert into etc.results (cosine_index,cosine_sim_value,frus_docid,sdc_docid,frus_date,sdc_date,sdc_doc_nbr) values (%d,%f,"'"%s"'",%d,"'"%s"'",%d,"'"%s"'")"%(i,cosine_sim_value,frus_docid,sdc_docid,frus_date,sdc_date,sdc_doc_nbr)
+            cur.execute(sql)
+            conn.commit()
 
 # In[16]:
-curr_date = [197310]
+curr_date = [197401]
 for p in range(len(curr_date)):
     input_file_name = 'files/input/sdc/output_uniq_words_' + str(curr_date[p]) + '.csv'
     documents_with_unique_words = pd.read_csv(input_file_name)
@@ -206,7 +233,7 @@ for p in range(len(curr_date)):
     tot_no_of_documents = len(documents)
 
     #For each frus telegram issued in 197301, calcuate the cosine similarity with state dept cables issued in 197301
-    frus_file_name = 'files/input/frus/frus_temp_' + str(curr_date[p]) + '_v1.txt'
+    frus_file_name = 'files/input/frus/frus_temp_' + str(curr_date[p]) + '.txt'
     frus_temp = pd.read_table(frus_file_name)
     #frus_temp = pd.read_table('frus_temp/frus_temp_197301.txt')
     frus_Vs_sdc_cosine = {'cosine_sim_value':[],'frus_docid':[],'frus_body':[],'sdc_docid':[],'sdc_cleanBody':[]}
@@ -232,6 +259,16 @@ for p in range(len(curr_date)):
         final_result.loc[:,'frus_docid'] = frus_docid
         file_name = 'files/results/' + str(frus_docid) + '_'+ str(curr_date[p]) + '_with_stemming.csv'
         final_result.to_csv(file_name)
+
+        
+        #connect to mysql
+        conn = pymysql.connect(host='104.131.83.145', port=3306, user='priyav', passwd='XpriyavF403')
+        cur = conn.cursor()
+        
+        #load results into mysql
+        load_into_mysql(file_name)
+        #close the cursor
+        cur.close()
 
         for k in range(5):
             frus_Vs_sdc_cosine['cosine_sim_value'].append(final_result.iloc[k]['cosine_similarity'])
