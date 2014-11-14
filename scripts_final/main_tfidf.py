@@ -95,7 +95,7 @@ if __name__ == "__main__":
 	date_year = '1974'
 	date_month = ['01','02','03','04']
 
-	for month in range(len(date_month)):
-		print "month = %d" month
-		main(date_year,date_month[month])
+	for i in range(len(date_month)):
+		print "month = %d" %i
+		main(date_year,date_month[i])
 
