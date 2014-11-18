@@ -47,10 +47,14 @@ def gen_corpus(date_year,date_month):
 
 if __name__ == "__main__":
 
-	date_year = '1973'
-	date_month = '01'
+	date_year = '1974'
+	date_month = '06'
 
-	df = gen_corpus(date_year,date_month)		
+	df = gen_corpus(date_year,date_month)	
+##rr
+	import os
+	print os.getcwd()
+	df.to_csv('test.csv')		
 
 
 
