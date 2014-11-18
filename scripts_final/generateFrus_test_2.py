@@ -12,7 +12,7 @@ def gen_frus_corpus(date_year,date_month):
 #Build sql 
 	sql = "select id,title,subject,date,p_from,p_to,body from docs \
 			where year(date) = %d and month(date) = %d \
-			and id in ('frus1969-76ve12d109','frus1969-76ve08d249','frus1969-76ve14p1d143');"%(int(date_year),int(date_month))
+			and id in ('frus1969-76v30d21','frus1969-76ve06d225','frus1969-76ve06d110','frus1969-76ve14p1d64','frus1969-76ve06d74','frus1969-76ve06d18','frus1969-76ve06d75','frus1969-76ve12d112','frus1969-76ve14p1d17','frus1969-76v30d23','frus1969-76ve14p1d116','frus1969-76ve03d165');"%(int(date_year),int(date_month))
 
 	#sql = sql + r' and lower(title) like "%telegram%";'		
 	print sql
