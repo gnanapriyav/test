@@ -92,8 +92,8 @@ def main(date_year,date_month):
 
 
 if __name__ == "__main__":
-	date_year = '1974'
-	date_month = ['08']
+	date_year = '1975'
+	date_month = ['05']
 	print "year = %s"%date_year
 	for i in range(len(date_month)):
 		print "month = %s" %date_month[i]
